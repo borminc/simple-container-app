@@ -15,6 +15,10 @@ export default class App extends Container {
 		for (const provider of this.providers) {
 			await this.bootProvider(provider);
 		}
+
+		for (const provider of this.providers) {
+			await this.bootedProvider(provider);
+		}
 	}
 
 	async registerProviders(providers: ProviderClass[]) {
@@ -33,5 +37,9 @@ export default class App extends Container {
 
 	async bootProvider(provider: ProviderContract) {
 		await provider.boot();
+	}
+
+	async bootedProvider(provider: ProviderContract) {
+		await provider.booted();
 	}
 }
