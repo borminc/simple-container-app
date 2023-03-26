@@ -9,7 +9,7 @@ import App from './Foundation/App';
 import Provider from './Foundation/Provider';
 import express, { Express } from 'express';
 
-class ExpressServiceProvider extends Provider {
+class ExpressProvider extends Provider {
 	async register() {
 		this.app.register('express', app => express()).asSingleton();
 	}
@@ -30,7 +30,7 @@ class ExpressServiceProvider extends Provider {
 async function main() {
 	const app = new App();
 
-	await app.registerProviders([ExpressServiceProvider]);
+	await app.registerProviders([ExpressProvider]);
 
 	await app.boot();
 }
