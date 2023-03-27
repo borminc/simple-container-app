@@ -9,6 +9,18 @@ import App from './Foundation/App';
 import Provider from './Foundation/Provider';
 import express, { Express } from 'express';
 
+class MessageProvider extends Provider {
+	async register() {
+		this.app.register('message', app => 'Hi!');
+	}
+}
+
+class GreetingProvider extends Provider {
+	async register() {
+		this.app.register('greeting', app => 'Greeting: ' + app.get('message'));
+	}
+}
+
 class ExpressProvider extends Provider {
 	async register() {
 		this.app.register('express', app => express()).asSingleton();
@@ -16,7 +28,7 @@ class ExpressProvider extends Provider {
 
 	async boot() {
 		this.app.get<Express>('express').get('/', (req, res) => {
-			res.send('Hey, it works!');
+			res.send(this.app.get('greeting'));
 		});
 	}
 
@@ -30,7 +42,11 @@ class ExpressProvider extends Provider {
 async function main() {
 	const app = new App();
 
-	await app.registerProviders([ExpressProvider]);
+	await app.registerProviders([
+		ExpressProvider,
+		GreetingProvider,
+		MessageProvider,
+	]);
 
 	await app.boot();
 }
