@@ -30,7 +30,7 @@ async function main() {
 
 	await app.registerProviders([AProvider, BProvider]);
 
-	app.boot();
+	await app.boot();
 }
 
 main();
